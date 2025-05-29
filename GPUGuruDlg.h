@@ -41,6 +41,8 @@ protected:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	afx_msg void OnBnClickedCbGpu();
 	afx_msg void OnCbnSelchangeCbFilter();
+	void OnCancel();
+	afx_msg void OnClose();
 
 	DECLARE_MESSAGE_MAP()
 
@@ -48,8 +50,6 @@ private:
 	// UI
 	HICON m_hIcon;
 	CStatic m_imageDisplay;
-	//BOOL m_useGPU = FALSE;
-    //ProcessingMode m_processingMode = MODE_CV_ONLY;
 	int m_processingMode = MODE_CV_ONLY;
 
 	// Camera and image
@@ -75,4 +75,5 @@ public:
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnBnClickedCancel();
 	afx_msg void OnBnClickedStop();
+	void StopProcess();
 };

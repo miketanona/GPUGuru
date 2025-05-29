@@ -72,6 +72,7 @@ BOOL CGPUGuruApp::InitInstance()
 	CGPUGuruDlg dlg;
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
+
 	if (nResponse == IDOK)
 	{
 		// TODO: Place code here to handle when the dialog is
@@ -93,6 +94,7 @@ BOOL CGPUGuruApp::InitInstance()
 	{
 		delete pShellManager;
 	}
+
 
 #if !defined(_AFXDLL) && !defined(_AFX_NO_MFC_CONTROLS_IN_DIALOGS)
 	ControlBarCleanUp();

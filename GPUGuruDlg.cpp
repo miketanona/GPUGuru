@@ -40,9 +40,13 @@ BEGIN_MESSAGE_MAP(CGPUGuruDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_CTLCOLOR()
 	ON_WM_TIMER()
+	ON_WM_CLOSE()
 	ON_WM_QUERYDRAGICON()
 	ON_WM_ERASEBKGND()
-	ON_BN_CLICKED(IDC_CB_GPU, &CGPUGuruDlg::OnBnClickedCbGpu)
+	ON_BN_CLICKED(IDC_RADIO_CV, OnBnClickedCbGpu)
+	ON_BN_CLICKED(IDC_RADIO_GPU, OnBnClickedCbGpu)
+	ON_BN_CLICKED(IDC_RADIO_HYBRID, OnBnClickedCbGpu)
+	/*ON_BN_CLICKED(IDC_CB_GPU, &CGPUGuruDlg::OnBnClickedCbGpu)*/
 	ON_CBN_SELCHANGE(IDC_CB_FILTER, &CGPUGuruDlg::OnCbnSelchangeCbFilter)
 	ON_BN_CLICKED(IDOK, &CGPUGuruDlg::OnBnClickedOk)
 	ON_BN_CLICKED(IDCANCEL, &CGPUGuruDlg::OnBnClickedCancel)
@@ -73,6 +77,8 @@ BOOL CGPUGuruDlg::OnInitDialog()
 
 	m_imageDisplay.SubclassDlgItem(IDC_PICTURE, this);
 
+	// save this for latr when we get CV:CU Dlls
+	// 
 	//int deviceCount = 0;
 	//try {
 	//	deviceCount = cv::cuda::getCudaEnabledDeviceCount();
@@ -322,4 +328,34 @@ void CGPUGuruDlg::OnBnClickedStop()
 
 	// Optional: clear image from window
 	m_imageDisplay.SetBitmap(nullptr);
+}
+
+
+void CGPUGuruDlg::OnCancel() {
+
+	CDialogEx::OnCancel();
+}
+
+
+void CGPUGuruDlg::StopProcess()
+{
+	try {
+		if (cap.isOpened())
+			cap.release();  // <-- This is where trouble happens
+
+		KillTimer(101);
+	}
+	catch (const std::exception& e) {
+		AfxMessageBox(CString("Standard exception: ") + CString(e.what()));
+	}
+	catch (...) {
+		AfxMessageBox(_T("Unknown exception during cleanup"));
+	}
+}
+
+void CGPUGuruDlg::OnClose()
+{
+	StopProcess();
+
+	CDialogEx::OnClose();
 }
